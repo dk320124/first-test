@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_employee_profile_form" model="ir.ui.view">
+        <field name="name">employee_expense.form</field>
+        <field name="model">employee.expense</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_is_inprogress" string="Level 1 approval" type="object"
+                            attrs="{'invisible': [('state', '!=', 'draft')]}" groups="test.group_expense_manager"/>
+                    <button name="action_done" string="Final approval" type="object"
+                            attrs="{'invisible': [('state', '!=', 'inprogress')]}" groups="test.group_expense_admin"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            attrs="{'invisible': [('state', 'not in', ('draft', 'inprogress'))]}"/>
+                    <field name="state" widget="statusbar" nolabel="1"
+                           statusbar_visible="draft,inprogress,done,cancel"/>
+                </header>
+
+
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="Employees_id"/>
+                            <field name="expense_type"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                            <field name="attachment"/>
+                            <field name="amount"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_employee_profile_tree" model="ir.ui.view">
+        <field name="name">employee_expense.tree</field>
+        <field name="model">employee.expense</field>
+        <field name="arch" type="xml">
+            <tree default_order="id asc" decoration-danger="state == 'inprogress'" decoration-success="state == 'done'"
+                  decoration-muted="state == 'cancel'">
+                <field name="name"/>
+                <field name="Employees_id"/>
+                <field name="expense_type"/>
+                <field name="state"/>
+                <field name="attachment"/>
+                <field name="amount"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_employee_profile" model="ir.actions.act_window">
+        <field name="name">employee</field>
+        <field name="res_model">employee.expense</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <menuitem id="employee_menu"
+              name="All Employee"
+              action="action_employee_profile"
+              groups="test.group_expense_manager,test.group_expense_admin,test.group_own_expense_user"
+              sequence="10"/>
+
+</odoo>
+
+

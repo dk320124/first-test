@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.actions.act_window" id="domestic_expense_action">
+        <field name="name">New Domestic Expense</field>
+        <field name="res_model">employee.expense</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{ 'default_expense_type': 'domestic'}</field>
+        <field name="domain">[('expense_type', '=', 'domestic')]</field>
+    </record>
+
+    <menuitem id="domestic_expense_menu"
+              name="Domestic Expense"
+              parent="employee_menu"
+              action="domestic_expense_action"
+              sequence="20"/>
+
+</odoo>
+
